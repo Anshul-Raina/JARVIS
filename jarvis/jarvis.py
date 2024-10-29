@@ -116,12 +116,22 @@ class Jarvis:
                 if match:
                     try:
                         # Extract the relevant part of the command
+                        query = match.group(1) if len(match.groups()) > 0 else ""
                         result = func(command)  # Pass the full command to the function
-                        return CommandResult(
-                            success=True,
-                            message="Command executed successfully",
-                            data=result
-                        )
+                        
+                        # If there's meaningful data, don't add the generic success message
+                        if result and str(result).strip():
+                            return CommandResult(
+                                success=True,
+                                message=str(result),
+                                data=None
+                            )
+                        else:
+                            return CommandResult(
+                                success=True,
+                                message="Command executed successfully",
+                                data=None
+                            )
                     except Exception as e:
                         return CommandResult(
                             success=False,

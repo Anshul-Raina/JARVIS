@@ -47,10 +47,10 @@ class AssistantCommands:
             ]
         }
     
-    def introduce(self) -> str:  # Added command parameter here
+    def introduce(self,command) -> str:  # Added command parameter here
         return "I am Jarvis, your personal AI assistant. I can help you with various tasks."
     
-    def creator_info(self) -> str:  # Added command parameter here
+    def creator_info(self, command) -> str:  # Added command parameter here
         return "I was created by Sir, Anshul Raina using Python in Visual Studio Code."
     
     def adjust_speech_rate(self, command: str) -> str:
