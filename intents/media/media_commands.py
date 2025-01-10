@@ -1,3 +1,5 @@
+import logging
+import os
 import pyautogui
 import re
 
@@ -27,24 +29,44 @@ class MediaCommands:
             ]
         }
 
-    def volume_up(self,command) -> str:
+    def volume_up(self) -> str:
         pyautogui.press('volumeup')
         return "Volume increased"
 
-    def volume_down(self,command) -> str:
+    def volume_down(self) -> str:
         pyautogui.press('volumedown')
         return "Volume decreased"
 
-    def volume_mute(self,command) -> str:
+    def volume_mute(self) -> str:
         pyautogui.press('volumemute')
         return "Volume unmuted"
 
     def take_screenshot(self, name: str) -> str:
-        img = pyautogui.screenshot()
-        img.save(f'C:/Desktop/{name}.png')
-        return f"Screenshot saved as {name}.png"
+        try:
+            # Get the correct path to Desktop using OS-independent way
+            desktop_path = os.path.expanduser("~/Desktop")
+            
+            # Ensure name has no extension and add .png
+            name = name.split('.')[0]  # Remove any existing extension
+            screenshot_path = os.path.join(desktop_path, f"{name}.png")
+            
+            # Take the screenshot using pyautogui
+            screenshot = pyautogui.screenshot()
+            
+            # Ensure it's in RGB mode before saving
+            if screenshot.mode != 'RGB':
+                screenshot = screenshot.convert('RGB')
+            
+            # Save with explicit format
+            screenshot.save(screenshot_path, format='PNG')
+            
+            return f"Screenshot saved as {screenshot_path}"
+            
+        except Exception as e:
+            logging.error(f"Screenshot error: {str(e)}")
+            return f"Error taking screenshot: {str(e)}"
 
-    def open_camera(self,command) -> str:
+    def open_camera(self) -> str:
         pyautogui.hotkey('win')
         pyautogui.typewrite('camera')
         pyautogui.hotkey('enter')

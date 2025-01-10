@@ -1,0 +1,25 @@
+2025-01-04 21:43:01,543 - JarvisApp - INFO - Creating directory: intents
+2025-01-04 21:43:01,543 - JarvisApp - INFO - Creating directory: assets
+2025-01-04 21:43:01,544 - JarvisApp - INFO - Creating directory: face_data
+2025-01-04 21:43:01,545 - JarvisApp - ERROR - Missing required files:
+2025-01-04 21:43:01,545 - JarvisApp - ERROR -   - assets/jarvis_authentication_gui.gif
+2025-01-04 21:43:01,545 - JarvisApp - ERROR -   - assets/jarvis_main.gif
+2025-01-04 21:43:01,545 - root - ERROR - Fatal error: Missing required files
+2025-01-04 21:43:09,128 - JarvisApp - ERROR - Missing required files:
+2025-01-04 21:43:09,128 - JarvisApp - ERROR -   - assets/jarvis_authentication_gui.gif
+2025-01-04 21:43:09,128 - JarvisApp - ERROR -   - assets/jarvis_main.gif
+2025-01-04 21:43:09,129 - root - ERROR - Fatal error: Missing required files
+2025-01-04 21:44:10,984 - JarvisApp - ERROR - Missing required files:
+2025-01-04 21:44:10,984 - JarvisApp - ERROR -   - assets/jarvis_main.gif
+2025-01-04 21:44:10,984 - root - ERROR - Fatal error: Missing required files
+2025-01-04 21:44:30,783 - JarvisApp - DEBUG - Project structure verified
+2025-01-04 21:44:30,783 - JarvisCore - DEBUG - Project root: c:\Users\anshu\Desktop\JARVIS
+2025-01-04 21:44:30,784 - JarvisCore - DEBUG - System path: ['c:\\Users\\anshu\\Desktop\\JARVIS\\intents', 'c:\\Users\\anshu\\Desktop\\JARVIS', 'c:\\Users\\anshu\\Desktop\\JARVIS\\jarvis', 'C:\\Python311\\python311.zip', 'C:\\Python311\\DLLs', 'C:\\Python311\\Lib', 'C:\\Python311', 'C:\\Users\\anshu\\AppData\\Roaming\\Python\\Python311\\site-packages', 'C:\\Python311\\Lib\\site-packages', 'C:\\Python311\\Lib\\site-packages\\win32', 'C:\\Python311\\Lib\\site-packages\\win32\\lib', 'C:\\Python311\\Lib\\site-packages\\Pythonwin']
+2025-01-04 21:44:32,512 - JarvisCore - DEBUG - Face recognition system initialized
+2025-01-04 21:44:33,212 - JarvisCore - DEBUG - Loading GIF: c:\Users\anshu\Desktop\JARVIS\assets\jarvis_authentication_gui.gif
+2025-01-04 21:44:33,212 - JarvisCore - ERROR - GIF file not found: c:\Users\anshu\Desktop\JARVIS\assets\jarvis_authentication_gui.gif
+2025-01-04 21:44:33,212 - JarvisCore - DEBUG - Loading GIF: c:\Users\anshu\Desktop\JARVIS\assets\jarvis_main.gif
+2025-01-04 21:44:33,212 - JarvisCore - ERROR - GIF file not found: c:\Users\anshu\Desktop\JARVIS\assets\jarvis_main.gif
+2025-01-04 21:44:33,212 - JarvisCore - ERROR - Failed to load animations: Failed to load required GIF files
+2025-01-04 21:44:33,212 - JarvisCore - ERROR - Failed to setup GUI: Failed to load required GIF files
+2025-01-04 21:44:33,212 - root - ERROR - Fatal error: Failed to load required GIF files

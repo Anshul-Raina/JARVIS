@@ -66,66 +66,79 @@ class InformationCommands:
         """Initialize Wolfram Alpha client with provided API key"""
         self.wolfram_client = wolframalpha.Client(app_id)
 
-    def get_time(self, command: str = "") -> str:
-        """Get current time in 12-hour format"""
-        return datetime.datetime.now().strftime("%I:%M %p")
-
-    def get_date(self, command: str = "") -> Dict[str, int]:
-        """Get current date information"""
-        now = datetime.datetime.now()
-        return {
-            'year': now.year,
-            'month': now.month,
-            'day': now.day
-        }
 
 
-
-    def search_wikipedia(query: str) -> str:
-        """Search Wikipedia and return summary"""
+    def search_wikipedia(self, command: str) -> str:
         try:
-            # Try to get the summary for the query
-            return wikipedia.summary(query, sentences=3)
+            # Debug print
+            print(f"Full command: {command}")
+            
+            match = re.search(r'wiki(?:pedia)?\s+(.+)', command, re.IGNORECASE)
+            if match:
+                query = match.group(1).strip()
+                print(f"Extracted query: {query}")  # Debug print
+                return wikipedia.summary(query, sentences=3)
+                
+            return "Please specify what to search on Wikipedia"
         except DisambiguationError as e:
-            # If there's a disambiguation error, return the options available
-            options = "\n".join(e.options[:5])  # Show a few options for brevity
-            return f"The term '{query}' is ambiguous. Did you mean:\n{options}"
+            return f"Multiple results found for '{query}'. Options:\n{', '.join(e.options[:5])}"
         except PageError:
-            # If the page doesn't exist
-            return f"No page found for '{query}'."
+            return f"No Wikipedia page found for '{query}'"
         except Exception as e:
-            # Handle other generic errors
             return f"Error searching Wikipedia: {str(e)}"
 
 
-    def search_youtube(self, query: str) -> None:
-        """Search or open YouTube"""
+    def search_youtube(self, command: str) -> str:
         try:
-            if 'just open' in query.lower():
-                subprocess.Popen([self.brave_path, 'https://www.youtube.com/'])
-            else:
-                search_query = query.replace('youtube', '').strip()
-                url = f"https://www.youtube.com/results?search_query={search_query}"
+            match = re.search(r'(?:youtube|play|find)\s+(.+?)(?:\s+on youtube)?$', command, re.IGNORECASE)
+            if match:
+                query = match.group(1).strip()
+                url = f"https://www.youtube.com/results?search_query={query}"
                 wb.get(self.chrome_path).open(url)
+                return f"Searching YouTube for: {query}"
+            return "Please specify what to search on YouTube"
         except Exception as e:
             return f"Error with YouTube search: {str(e)}"
 
-    def google_search(self, query: str) -> None:
-        """Perform Google search"""
+    def google_search(self, command: str) -> str:
         try:
-            search_query = query.replace('search', '').replace('google', '').strip()
-            url = f"https://www.google.com/search?q={search_query}"
-            wb.get(self.chrome_path).open(url)
+            match = re.search(r'(?:search|google|look up|browse)\s+(.+)', command, re.IGNORECASE)
+            if match:
+                query = match.group(1).strip()
+                url = f"https://www.google.com/search?q={query}"
+                wb.get(self.chrome_path).open(url)
+                return f"Searching Google for: {query}"
+            return "Please specify what to search"
         except Exception as e:
             return f"Error with Google search: {str(e)}"
 
-    def wolfram_search(self, query: str) -> str:
-        """Search using Wolfram Alpha"""
-        if not self.wolfram_client:
-            return "Wolfram Alpha client not initialized. Please call setup_wolfram() first."
-        
+    def wolfram_search(self, command: str) -> str:
         try:
-            result = self.wolfram_client.query(query)
-            return next(result.results).text
+            match = re.search(r'(?:what is|who is|explain|define|calculate)\s+(.+)', command, re.IGNORECASE)
+            if match:
+                query = match.group(1).strip()
+                if not self.wolfram_client:
+                    return "Wolfram Alpha client not initialized"
+                result = self.wolfram_client.query(query)
+                return next(result.results).text
+            return "Please specify your question"
         except Exception as e:
-            return f"Error with Wolfram Alpha search: {str(e)}"
+            return f"Error with Wolfram Alpha: {str(e)}"
+
+    def get_time(self, command: str = "") -> str:
+        return f"Current time: {datetime.datetime.now().strftime('%I:%M %p')}"
+
+    def get_date(self, command: str = "") -> str:
+        now = datetime.datetime.now()
+        return f"Today is {now.strftime('%B %d, %Y')}"
+    
+    def execute_command(self, command: str) -> str:
+        """Execute the given browser command"""
+        command = command.lower()
+        
+        for func, patterns in self.command_map.items():
+            for pattern in patterns:
+                if re.search(pattern, command):
+                    return func(command)
+                
+        return "Command not recognized"
